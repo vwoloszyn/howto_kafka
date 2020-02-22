@@ -6,7 +6,7 @@ Check https://kafka.apache.org/quickstart for
 references.
 ## downloading
 ```
-wget https://www.apache.org/dyn/closer.cgi?path=/kafka/2.4.0/kafka_2.12-2.4.0.tgz
+wget https://downloads.apache.org/kafka/2.4.0/kafka_2.12-2.4.0.tgz
 tar -xzf kafka_2.12-2.4.0.tgz
 cd kafka_2.12-2.4.0
 ```
