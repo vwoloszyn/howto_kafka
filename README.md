@@ -27,6 +27,12 @@ bin/kafka-topics.sh --create --bootstrap-server localhost:9092 --replication-fac
 
 # 2. Executing the code
 
+## 2.0 installing requirements 
+```
+Run pip install -r requirements.txt
+```
+
+
 ## 2.1 Executing the producer 
 It will take input from a file and send it out as messages to the Kafka cluster. By default, each line will be sent as a separate message.
 
