@@ -4,11 +4,10 @@ from kafka.errors import KafkaError
 import time
 import json
 
-
 if __name__== '__main__':
      broker, topic, fileName = sys.argv[1:]
      producer = KafkaProducer(bootstrap_servers=str(broker))
-
+     #open json file and sending out the file.
      with open(fileName) as json_file:
          contents = json.load(json_file)
          for content in contents:
@@ -22,5 +21,4 @@ if __name__== '__main__':
                  break
              print('.',end='',flush=True)
              time.sleep(0.2)
-
      print('done')       

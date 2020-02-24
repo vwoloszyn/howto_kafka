@@ -20,10 +20,7 @@ if __name__ == "__main__":
     sc = SparkContext(appName="PythonStreamingRecieverKafka") # Create Spark context
     sc.setLogLevel("ERROR")
     ssc = StreamingContext(sc, 20) #  Create Streaming Context with the batch duration of N seconds
-
-
     broker, topic = sys.argv[1:] # reading args url and topic from the command line
-
     kafkaStream = KafkaUtils.createStream(ssc, broker, "raw-event-streaming-consumer",{topic:1}) # Connect to Kafka and getting a dstram
 
     # Message Processing
