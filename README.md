@@ -1,7 +1,9 @@
-# howto_kafka
+# Getting Started with Spark Streaming with Python and Kafka
 A simple Producer and Consumer for Kafka
 
-# install Apache Kafka locally 
+# Preparing the Environment
+
+## installing Apache Kafka 
 Check https://kafka.apache.org/quickstart for
 references.
 ## downloading
