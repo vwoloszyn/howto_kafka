@@ -1,26 +1,46 @@
-# howto_kafka
 A simple Producer and Consumer for Kafka
 
-# install Apache Kafka locally 
+# 1. Preparing the Environment
+
+## 1.1 downloading Apache Kafka 
 Check https://kafka.apache.org/quickstart for
 references.
-## downloading
 ```
 wget https://downloads.apache.org/kafka/2.4.0/kafka_2.12-2.4.0.tgz
 tar -xzf kafka_2.12-2.4.0.tgz
 cd kafka_2.12-2.4.0
 ```
 
-## Start the server
+## 1.2 Starting the servers
+Kafka uses ZooKeeper so you need to first start a ZooKeeper server if you don't already have one. You can use the convenience script packaged with kafka to get a quick-and-dirty single-node ZooKeeper instance.
+
 ```
-# Kafka uses ZooKeeper so you need to first start a ZooKeeper server
 bin/zookeeper-server-start.sh config/zookeeper.properties
-# Now start the Kafka server:
 bin/kafka-server-start.sh config/server.properties
 ```
 
-## creating the topic
+## 1.3 creating the topic
 ```
-#Let's create a topic named "test" with a single partition and only one replica:
+#Let's create a topic named "test" used in this example with a single partition and only one replica:
 bin/kafka-topics.sh --create --bootstrap-server localhost:9092 --replication-factor 1 --partitions 1 --topic test
 ```
+
+# 2. Executing the code
+
+## 2.1 Executing the producer 
+It will take input from a file and send it out as messages to the Kafka cluster. By default, each line will be sent as a separate message.
+
+Run the producer and then type a few messages into the console to send to the server. 
+```
+python producer.py localhost:9092 test mock_data.json
+```
+
+## 2.2 Executing the consumer 
+It will take input from a file and send it out as messages to the Kafka cluster. By default, each line will be sent as a separate message.
+
+Run the consumer to get some statistcs from spark stream. 
+```
+python spark_stream_consumer.py localhost:2181 test
+```
+
+
