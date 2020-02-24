@@ -18,12 +18,13 @@ os.environ["PYSPARK_DRIVER_PYTHON"] = "/usr/local/bin/python3"
 
 if __name__ == "__main__":
     sc = SparkContext(appName="PythonStreamingRecieverKafka") # Create Spark context
-    sc.setLogLevel("WARN")
-    ssc = StreamingContext(sc, 5) #  Create Streaming Context with the batch duration of 5 seconds
+    sc.setLogLevel("ERROR")
+    ssc = StreamingContext(sc, 20) #  Create Streaming Context with the batch duration of N seconds
+
 
     broker, topic = sys.argv[1:] # reading args url and topic from the command line
 
-    kafkaStream = KafkaUtils.createStream(ssc, broker, "raw-event-streaming-consumer",{topic:1}) # Connect to Kafka 
+    kafkaStream = KafkaUtils.createStream(ssc, broker, "raw-event-streaming-consumer",{topic:1}) # Connect to Kafka and getting a dstram
 
     # Message Processing
     parsed = kafkaStream.map(lambda v: json.loads((v[1]))) # Parse the inbound message as json
@@ -33,7 +34,8 @@ if __name__ == "__main__":
     parsed.map(lambda x: x['id']).countByValue().count().map(lambda x:'users in this batch: %s' % x).pprint()
     parsed.map(lambda x: x['country']).countByValue().transform(lambda rdd:rdd.sortBy(lambda x:-x[1])).map(lambda x:'most commom country in this batch: %s' % x[0]).pprint(1)
     parsed.map(lambda x: x['country']).countByValue().transform(lambda rdd:rdd.sortBy(lambda x:x[1])).map(lambda x:'least commom country in this batch: %s' % x[0]).pprint(1)
-
+    parsed.map(lambda x: x['email'].split("@")[1]).countByValue().transform(lambda rdd:rdd.sortBy(lambda x:-x[1])).map(lambda x:'most commom domain: %s' % x[0]).pprint(1)
+    
     #Start the streaming context
     ssc.start()
     ssc.awaitTermination()
